@@ -17,7 +17,7 @@ const handleNext = async () => {
     setCurrentStep(currentStep + 1);
   } else {
     try {
-      const serviceName = tutorConfig.services.find(s => s.sid === selectedService)?.name || '';
+      const serviceName = tutorConfig.services.find(s => s.id === selectedService)?.name || '';
       await fetch('/api/send-telegram', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
