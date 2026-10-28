@@ -12,10 +12,31 @@ export default function BookingPage() {
   const [formData, setFormData] = useState({ name: "", phone: "", grade: "10", comment: "" });
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleNext = () => {
-    if (currentStep < 3) setCurrentStep(currentStep + 1);
-    else setIsSuccess(true);
-  };
+const handleNext = async () => {
+  if (currentStep < 3) {
+    setCurrentStep(currentStep + 1);
+  } else {
+    try {
+      const serviceName = tutorConfig.services.find(s => s.sid === selectedService)?.name || '';
+      await fetch('/api/send-telegram', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          service: serviceName,
+          date: selectedDate,
+          time: selectedTime,
+          phone: formData.phone,
+          grade: formData.grade,
+          comment: formData.comment,
+        }),
+      });
+    } catch (error) {
+      console.error('Ошибка отправки в Telegram:', error);
+    }
+    setIsSuccess(true);
+  }
+};
 
   const handleBack = () => {
     if (isSuccess) {
