@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const token = '9253866978:AAELiXS7VrKzbckKj_L7hrkfAuJra6BFMkU';
     const chatId = '5121381529';
     
-    const message = `🔥 *Новая запись!*\n\n👤 *Ученик:* ${data.name}\n *Услуга:* ${data.service}\n📅 *Дата:* ${data.date}\n⏰ *Время:* ${data.time}\n📱 *Телефон:* ${data.phone}\n🎓 *Класс:* ${data.grade}\n\n💬 *Комментарий:* ${data.comment || 'Нет'}`;
+    const message = `🔥 *Новая запись!*\n\n👤 *Ученик:* ${data.name}\n *Услуга:* ${data.service}\n📅 *Дата:* ${data.date}\n⏰ *Время:* ${data.time}\n📱 *Телефон:* ${data.phone}\n🎓🎓 *Класс:* ${data.grade}\n📞 *Связь:* ${data.contactMethod || 'Не указано'}\n\n💬 *Комментарий:* ${data.comment || 'Нет'}`;
     
     const url = `https://api.telegram.org/bot${token}/sendMessage`;
     

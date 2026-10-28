@@ -9,7 +9,7 @@ export default function BookingPage() {
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [formData, setFormData] = useState({ name: "", phone: "", grade: "10", comment: "" });
+  const [formData, setFormData] = useState({ name: "", phone: "", grade: "10", contactMethod: "Мне перезвонят", comment: "" });
   const [isSuccess, setIsSuccess] = useState(false);
 
 const handleNext = async () => {
@@ -28,6 +28,7 @@ const handleNext = async () => {
           time: selectedTime,
           phone: formData.phone,
           grade: formData.grade,
+          contactMethod: formData.contactMethod,
           comment: formData.comment,
         }),
       });
@@ -45,7 +46,7 @@ const handleNext = async () => {
       setSelectedService(null);
       setSelectedDate(null);
       setSelectedTime(null);
-      setFormData({ name: "", phone: "", grade: "10", comment: "" });
+      setFormData({ name: "", phone: "", grade: "10", contactMethod: "Мне перезвонят", comment: "" });
     } else if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
@@ -207,6 +208,18 @@ const handleNext = async () => {
                   </select>
                 </div>
                 <div>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-900 mb-1">Как с вами удобнее связаться?</label>
+        <select
+          value={formData.contactMethod}
+          onChange={(e) => setFormData({...formData, contactMethod: e.target.value})}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+        >
+          <option value="Мне перезвонят">📞 Мне перезвонят</option>
+          <option value="Пришлите ссылку на Zoom/Telegram">✉️ Пришлите ссылку на Zoom/Telegram</option>
+        </select>
+      </div>
+
                   <label className="block text-sm font-medium text-gray-900 mb-1">Комментарий (необязательно)</label>
                   <textarea
                     value={formData.comment}
