@@ -4,8 +4,8 @@ export async function POST(request: Request) {
   try {
     const data = await request.json();
     
-    const token = '9253866978:AAELiXS7VrKzbckKj_L7hrkfAuJra6BFMkU';
-    const chatId = '5121381529';
+    const token = process.env.TELEGRAM_BOT_TOKEN || '';
+    const chatId = process.env.TELEGRAM_CHAT_ID || '';
     
     const message = `🔥 *Новая запись!*\n\n👤 *Ученик:* ${data.name}\n *Услуга:* ${data.service}\n📅 *Дата:* ${data.date}\n⏰ *Время:* ${data.time}\n📱 *Телефон:* ${data.phone}\n🎓🎓 *Класс:* ${data.grade}\n📞 *Связь:* ${data.contactMethod || 'Не указано'}\n\n💬 *Комментарий:* ${data.comment || 'Нет'}`;
     
