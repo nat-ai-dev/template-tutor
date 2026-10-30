@@ -10,34 +10,47 @@ export default function BookingPage() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [formData, setFormData] = useState({ name: "", phone: "", grade: "10", contactMethod: "Мне перезвонят", comment: "" });
-  const [isSuccess, setIsSuccess] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
 
-const handleNext = async () => {
-  if (currentStep < 3) {
-    setCurrentStep(currentStep + 1);
-  } else {
-    try {
-      const serviceName = tutorConfig.services.find(s => s.id === selectedService)?.name || '';
-      await fetch('/api/send-telegram', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          service: serviceName,
-          date: selectedDate,
-          time: selectedTime,
-          phone: formData.phone,
-          grade: formData.grade,
-          contactMethod: formData.contactMethod,
-          comment: formData.comment,
-        }),
-      });
-    } catch (error) {
-      console.error('Ошибка отправки в Telegram:', error);
+  const handleNext = async () => {
+    if (currentStep < 3) {
+      setCurrentStep(currentStep + 1);
+    } else {
+      // 1. Проверка телефона
+      const cleanPhone = formData.phone.replace(/\D/g, ''); // оставляем только цифры
+      if (cleanPhone.length < 10) {
+        setPhoneError("Введите корректный номер телефона (минимум 10 цифр)");
+        return; // останавливаем отправку, если номер короткий
+      }
+      setPhoneError(""); // если всё ок, убираем ошибку
+
+      // 2. Приводим номер к формату +7... для Telegram
+      const formattedPhone = cleanPhone.startsWith('8') ? '+7' + cleanPhone.slice(1) : (cleanPhone.startsWith('7') ? '+' + cleanPhone : '+' + cleanPhone);
+
+      // 3. Отправка
+      try {
+        const serviceName = tutorConfig.services.find(s => s.id === selectedService)?.name || '';
+        await fetch('/api/send-telegram', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            service: serviceName,
+            date: selectedDate,
+            time: selectedTime,
+            phone: formattedPhone, // отправляем красивый номер
+            grade: formData.grade,
+            contactMethod: formData.contactMethod,
+            comment: formData.comment,
+          }),
+        });
+        setIsSuccess(true);
+      } catch (error) {
+        console.error('Ошибка отправки в Telegram:', error);
+      }
     }
-    setIsSuccess(true);
-  }
-};
+  };
 
   const handleBack = () => {
     if (isSuccess) {
@@ -185,16 +198,20 @@ const handleNext = async () => {
                     placeholder="Иван Петров"
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-1">Телефон (WhatsApp) *</label>
-                  <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-900 placeholder-gray-400"
-                    placeholder="+7 (999) 000-00-00"
-                  />
-                </div>
+                      <div>
+        <label className="block text-sm font-medium text-gray-900 mb-1">Телефон (WhatsApp) *</label>
+        <input
+          type="tel"
+          value={formData.phone}
+          onChange={(e) => {
+            setFormData({...formData, phone: e.target.value});
+            setPhoneError(""); // убираем ошибку, когда пользователь начинает исправлять
+          }}
+          className={`w-full px-4 py-3 rounded-lg border ${phoneError ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'} focus:ring-2 focus:border-blue-500 outline-none text-gray-900 placeholder-gray-400`}
+          placeholder="+7 (999) 000-00-00"
+        />
+        {phoneError && <p className="text-red-500 text-sm mt-1">{phoneError}</p>}
+      </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-900 mb-1">Класс</label>
                   <select
