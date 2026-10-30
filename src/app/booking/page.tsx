@@ -78,7 +78,7 @@ export default function BookingPage() {
         <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full text-center">
           <div className="text-6xl mb-4">🎉</div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Вы успешно записаны!</h2>
-          <p className="text-gray-600 mb-6">Павел свяжется с вами в WhatsApp для подтверждения.</p>
+          <p className="text-gray-600 mb-6">Репетитор свяжется с вами по указанному телефону для подтверждения.</p>
           <div className="bg-blue-50 rounded-lg p-4 mb-6 text-left">
             <p className="text-sm text-gray-700">Услуга: <span className="font-semibold text-gray-900">{tutorConfig.services.find(s => s.id === selectedService)?.name}</span></p>
             <p className="text-sm text-gray-700">Дата: <span className="font-semibold text-gray-900">{selectedDate} в {selectedTime}</span></p>
@@ -199,7 +199,7 @@ export default function BookingPage() {
                   />
                 </div>
                       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-1">Телефон (WhatsApp) *</label>
+        <label className="block text-sm font-medium text-gray-900 mb-1">Телефон *</label>
         <input
           type="tel"
           value={formData.phone}
