@@ -1,5 +1,5 @@
 export const tutorConfig = {
-  name: "Павел Омельянович",
+  name: "Имя Фамилия репетитора",
   subject: "Физика (9-11 класс, ЕГЭ/ОГЭ)",
   experience: "8 лет опыта",
   education: "МГУ, физический факультет",
