@@ -185,7 +185,7 @@ export default function BookingPage() {
           {currentStep === 3 && (
             <div>
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Ваши данные</h2>
-              <p className="text-gray-600 mb-6">Заполните форму, чтобы Павел мог подготовиться к занятию</p>
+              <p className="text-gray-600 mb-6">Заполните форму, чтобы репетитор мог подготовиться к занятию</p>
               
               <div className="space-y-4 max-w-md">
                 <div>
@@ -228,13 +228,13 @@ export default function BookingPage() {
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-900 mb-1">Как с вами удобнее связаться?</label>
         <select
-          value={formData.contactMethod}
-          onChange={(e) => setFormData({...formData, contactMethod: e.target.value})}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
-        >
-          <option value="Мне перезвонят">📞 Мне перезвонят</option>
-          <option value="Пришлите ссылку на Zoom/Telegram">✉️ Пришлите ссылку на Zoom/Telegram</option>
-        </select>
+  value={formData.contactMethod}
+  onChange={(e) => setFormData({...formData, contactMethod: e.target.value})}
+  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-gray-900"
+>
+  <option value="Перезвонить мне">📞 Перезвонить мне</option>
+  <option value="Написать в Telegram/Zoom">✉️ Написать в Telegram/Zoom</option>
+</select>
       </div>
 
                   <label className="block text-sm font-medium text-gray-900 mb-1">Комментарий (необязательно)</label>
